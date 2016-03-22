@@ -12,6 +12,7 @@
             <div>
                 <h1>Welcome to Chris' Yard Sale!</h1>
                 <h2 ng-hide="yardSale.loggedIn"> Login to get started.</h2>
+                <h2 ng-show="yardSale.loggedIn">Welcome, {{ yardSale.username }}!</h2>
                 <h2 ng-show="yardSale.loggedIn">Have something to sell?</h2>
                 <h3 ng-show="yardSale.loggedIn">Please list it here!</h3>
             </div>
