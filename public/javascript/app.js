@@ -3,7 +3,8 @@ var app = angular.module('yardApp', []);
 
 app.controller('mainController', function($http){
     var yardSale = this;
-    yardSale.products = [];
+    yardSale.forSale = [];
+    yardSale.items = [];
 
     yardSale.login = function () {
         yardSale.loggedIn = true;
@@ -18,9 +19,23 @@ app.controller('mainController', function($http){
       });
 };
 
-yardSale.addProduct = function(){
-    yardSale.products.push(yardSale.item);
-    yardSale.item = {};
+
+ yardSale.addItem = function(){
+    //console.log(yardSale.item.product);
+   yardSale.items.push(yardSale.item);
+   yardSale.item = {};
+            
+    $http({
+        method: "POST",
+        url: '/newItem/' + yardSale.userId,
+        data: {
+            amount: yardSale.item.product,
+            name: yardSale.item.name,
+            date: yardSale.item.date
+        }
+    }).then(function(result){
+        yardSale.login();
+    });
 };
 
 });

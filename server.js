@@ -9,12 +9,16 @@ var PORT = process.env.PORT || 8080;
 var db = 'mongodb://localhost/yardsale';
 mongoose.connect(db);
 
+//USER MODELS FOR DB
 var User = require('./models/User');
+var Item = require('./models/Item');
 
+//MIDDLEWARE
 app.use(logger('dev'));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
+//ROUTES
 app.get('/', function(req, res){
     res.send(index.html);
 });
@@ -43,6 +47,33 @@ app.post('/user', function(req, res) {
                 console.log(user);
                 res.send(user);
             }
+        }
+    });
+});
+
+app.post('/newItem/:id', function(req, res){
+    var itemWithUserId = req.body;
+    itemWithUserId._user = req.params.id;
+
+    var newItem = new Item(itemWithUserId);
+    newItem.save(function(err, doc){
+        if(err){
+            console.log(err);
+            res.send(err);
+        }else{
+            User.findOneAndUpdate({
+                _id: req.params.id
+            }, {
+                $push: {
+                    'items': doc._id
+                }
+            }, {new:true}, function(err, updatedUser){
+                if(err) {
+                    console.log(err);
+                } else{
+                    res.send(updatedUser);
+                }
+            });
         }
     });
 });

@@ -21,11 +21,11 @@
                 <input class="btn btn-primary" type="submit" value="login">
             </form>
             <div class="row" ng-show="yardSale.loggedIn">
-                <form ng-submit="addProduct()">
-                    <input type="text" placeholder="Item for Sale" ng-model="item.product">
-                    <input type="text" placeholder="Target price" ng-model="item.price">
-                    <input type="date" placeholder="Date Listed" ng-model="item.date">
-                    <input class="btn btn-primary" type="text" value="add">
+                <form ng-submit="yardSale.addItem()">
+                    <input type="text" placeholder="Item for Sale" ng-model="yardSale.item.product">
+                    <input type="text" placeholder="Target price" ng-model="yardSale.item.price">
+                    <input type="date" placeholder="Date Listed" ng-model="yardSale.item.date">
+                    <input class="btn btn-primary" type="submit" value="add">
                 </form>
                 <table class="col-md-6 col-md-offset-4 table-bordered">
                     <thead>
@@ -36,10 +36,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="product in products">
-                            <td>{{ product.product }}</td>
-                            <td>{{ product.price | currency }}</td>
-                            <td>{{ product.date | date }}</td>
+                        <tr ng-repeat=" item in yardSale.items">
+                            <td>{{ item.product }}</td>
+                            <td>{{ item.price | currency }}</td>
+                            <td>{{ item.date | date }}</td>
                         </tr>
                     </tbody>
                 </table>
